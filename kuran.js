@@ -111,6 +111,21 @@
     t_hope: "Umut", t_love: "Sevgi", t_heart: "Kalp", t_truth: "Doğruluk", t_lie: "Yalan",
     t_arrogance: "Kibir", t_prophets: "Peygamberler", t_angels: "Melekler", t_nature: "Doğa", t_creation: "Yaratılış",
     t_trial: "İmtihan", t_nightday: "Gece ve gündüz",
+    q_btn: "Kıble Bul", q_title: "Kıble Pusulası", q_back: "Geri", q_angle: "Kıble açısı (kuzeyden)",
+    q_dist: "Kâbe'ye uzaklık", q_start: "Pusulayı başlat",
+    q_intro: "Konumunuz ve telefonunuzun pusulası kullanılarak Kâbe yönü gösterilir. Konumunuz cihazınızdan dışarı gönderilmez.",
+    q_locating: "Konumunuz alınıyor…", q_waiting: "Pusula bekleniyor…",
+    q_turn: "Kâbe simgesi üstteki işaretle buluşana kadar kendi etrafınızda dönün.",
+    q_aligned: "Kıble yönündesiniz.",
+    q_calib: "Pusula hassasiyeti düşük. Telefonu havada birkaç kez 8 çizerek çevirin.",
+    q_nosensor: "Bu cihazda pusula sensörü yok. Kıble, kuzeyden saat yönünde gösterilen açıdadır.",
+    q_sensor_denied: "Pusula izni verilmedi. Kıble, kuzeyden saat yönünde gösterilen açıdadır.",
+    q_loc_denied: "Konum izni verilmedi. Tarayıcı ayarlarından konuma izin verin ya da şehrinizi yazın.",
+    q_loc_fail: "Konum alınamadı. Tekrar deneyin ya da şehrinizi yazın.",
+    q_city_ph: "Şehrinizi yazın…", q_city_none: "Bu adla bir şehir bulunamadı.",
+    q_city_fail: "Şehir araması yapılamadı. İnternet bağlantınızı kontrol edin.",
+    q_tip: "Doğru sonuç için telefonu mıknatıslı kılıftan, metal eşyalardan ve elektronik cihazlardan uzak tutun.",
+    q_decl: "Manyetik sapma düzeltmesi", q_gps: "Konumunuz", q_relocate: "Konumu yenile",
   };
   const UI_EN = {
     title: "QURAN", tab_sure: "Surah", tab_cuz: "Juz", tab_kw: "Keyword",
@@ -144,19 +159,35 @@
     t_hope: "Hope", t_love: "Love", t_heart: "Heart", t_truth: "Truthfulness", t_lie: "Lying",
     t_arrogance: "Arrogance", t_prophets: "Prophets", t_angels: "Angels", t_nature: "Nature", t_creation: "Creation",
     t_trial: "Trials", t_nightday: "Night and day",
+    q_btn: "Find Qibla", q_title: "Qibla Compass", q_back: "Back", q_angle: "Qibla angle (from north)",
+    q_dist: "Distance to the Kaaba", q_start: "Start compass",
+    q_intro: "The direction of the Kaaba is shown using your location and your phone's compass. Your location is never sent off your device.",
+    q_locating: "Getting your location…", q_waiting: "Waiting for the compass…",
+    q_turn: "Turn around until the Kaaba icon meets the mark at the top.",
+    q_aligned: "You are facing the Qibla.",
+    q_calib: "Compass accuracy is low. Move your phone in a figure 8 in the air a few times.",
+    q_nosensor: "This device has no compass sensor. The Qibla is at the angle shown, measured clockwise from north.",
+    q_sensor_denied: "Compass permission was not given. The Qibla is at the angle shown, measured clockwise from north.",
+    q_loc_denied: "Location permission was not given. Allow location in your browser settings or type your city.",
+    q_loc_fail: "Your location could not be found. Try again or type your city.",
+    q_city_ph: "Type your city…", q_city_none: "No city was found with this name.",
+    q_city_fail: "City search failed. Check your internet connection.",
+    q_tip: "For an accurate result, keep the phone away from magnetic cases, metal objects and electronic devices.",
+    q_decl: "Magnetic declination correction", q_gps: "Your location", q_relocate: "Refresh location",
   };
   // Çeviriye gönderilen kaynak: tek kelimeler yanlış çevrilmesin diye bağlamlı yazıldı
   // ("verse" tek başına bazı dillerde "şiir" oluyor; "Quranic verse" doğru çıkıyor).
   const UI_SRC = Object.assign({}, UI_EN, {
     verses_tpl: "100 Quranic verses", g_verse: "Quranic verse", g_verses: "Quranic verses",
     play_from: "Play from this Quranic verse", ss_ph: "Search surah, Quranic verse, word…",
+    q_btn: "Find the Qibla", q_title: "Qibla compass",
   });
   const UPPER_KEYS = ["title", "sort", "asc", "desc"];
   let T = UI_TR;
   const siteLang = () => (window.getSiteLang ? window.getSiteLang() : "tr") || "tr";
 
   async function translateUI(code) {
-    const key = "q-ui-v4-" + code;
+    const key = "q-ui-v5-" + code;
     const saved = store.get(key, null);
     if (saved && saved.title) return saved;
     const keys = Object.keys(UI_EN);
@@ -195,7 +226,9 @@
     document.querySelectorAll("[data-i18n-aria]").forEach((n) => { n.setAttribute("aria-label", T[n.dataset.i18nAria]); });
     const sl = document.getElementById("kuran-sort-label");
     if (sl) sl.textContent = asc ? T.asc : T.desc;
+    window.dispatchEvent(new Event("siteui"));
   }
+  window.siteT = (k) => (T && T[k]) || UI_EN[k] || "";
 
   // ---------- veri ----------
   let chapters = [];          // 114 sure (seçili dilde)
