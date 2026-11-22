@@ -131,6 +131,9 @@
     m_none: "Bu bölgede kayıtlı cami bulunamadı.",
     m_nocountry: "Bu ülkede kayıtlı cami bulunamadı. Yakınınızdaki camiler için konumunuzu kullanın.",
     m_fail: "Cami bilgileri yüklenemedi. İnternet bağlantınızı kontrol edip tekrar deneyin.",
+    p_fajr: "İmsak", p_sunrise: "Güneş", p_dhuhr: "Öğle", p_asr: "İkindi", p_maghrib: "Akşam", p_isha: "Yatsı",
+    p_now: "Şu anda ezan okunuyor", p_next: "Sonraki vakit", p_label: "Namaz vakitleri",
+    p_dst_fwd: "Saatler ileri alındı", p_dst_back: "Saatler geri alındı",
   };
   const UI_EN = {
     title: "QURAN", tab_sure: "Surah", tab_cuz: "Juz", tab_kw: "Keyword",
@@ -184,6 +187,9 @@
     m_none: "No mosques are recorded in this area.",
     m_nocountry: "No mosques are recorded in this country. Use your location to see mosques near you.",
     m_fail: "Mosque information could not be loaded. Check your internet connection and try again.",
+    p_fajr: "Fajr", p_sunrise: "Sunrise", p_dhuhr: "Dhuhr", p_asr: "Asr", p_maghrib: "Maghrib", p_isha: "Isha",
+    p_now: "The adhan is being called now", p_next: "Next prayer", p_label: "Prayer times",
+    p_dst_fwd: "Clocks went forward", p_dst_back: "Clocks went back",
   };
   // Çeviriye gönderilen kaynak: tek kelimeler yanlış çevrilmesin diye bağlamlı yazıldı
   // ("verse" tek başına bazı dillerde "şiir" oluyor; "Quranic verse" doğru çıkıyor).
@@ -194,12 +200,13 @@
     m_btn: "Find a mosque", m_near: "Mosques near me", m_dir: "Get directions", m_unnamed: "Mosque (masjid)",
   });
   const UPPER_KEYS = ["title", "sort", "asc", "desc"];
-  const LABEL_KEYS = ["q_btn", "q_title", "m_btn", "m_title", "m_near", "m_dir", "m_found", "m_unnamed", "m_city_ph"];
+  const LABEL_KEYS = ["q_btn", "q_title", "m_btn", "m_title", "m_near", "m_dir", "m_found", "m_unnamed", "m_city_ph",
+    "p_fajr", "p_sunrise", "p_dhuhr", "p_asr", "p_maghrib", "p_isha", "p_now", "p_next", "p_label", "p_dst_fwd", "p_dst_back"];
   let T = UI_TR;
   const siteLang = () => (window.getSiteLang ? window.getSiteLang() : "tr") || "tr";
 
   async function translateUI(code) {
-    const key = "q-ui-v7-" + code;
+    const key = "q-ui-v8-" + code;
     const saved = store.get(key, null);
     if (saved && saved.title) return saved;
     const keys = Object.keys(UI_EN);
