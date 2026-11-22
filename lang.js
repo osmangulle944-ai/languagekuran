@@ -240,6 +240,7 @@ async function choose(code) {
   window.dispatchEvent(new CustomEvent("sitelang", { detail: current }));
 }
 window.getSiteLang = () => current;
+window.getSiteFlag = () => (byCode[current] ? byCode[current][2] : "tr").split("-")[0];
 
 // ---------- Küçük bilgi balonu ----------
 function showToast(msg) {

@@ -126,6 +126,11 @@
     q_city_fail: "Şehir araması yapılamadı. İnternet bağlantınızı kontrol edin.",
     q_tip: "Doğru sonuç için telefonu mıknatıslı kılıftan, metal eşyalardan ve elektronik cihazlardan uzak tutun.",
     q_decl: "Manyetik sapma düzeltmesi", q_gps: "Konumunuz", q_relocate: "Konumu yenile",
+    m_btn: "Cami Bul", m_title: "Cami Bul", m_city_ph: "Şehir ara…", m_near: "Yakınımdakiler",
+    m_dir: "Yol tarifi", m_unnamed: "Cami", m_loading: "Camiler yükleniyor…", m_found: "Bulunan cami",
+    m_none: "Bu bölgede kayıtlı cami bulunamadı.",
+    m_nocountry: "Bu ülkede kayıtlı cami bulunamadı. Yakınınızdaki camiler için konumunuzu kullanın.",
+    m_fail: "Cami bilgileri yüklenemedi. İnternet bağlantınızı kontrol edip tekrar deneyin.",
   };
   const UI_EN = {
     title: "QURAN", tab_sure: "Surah", tab_cuz: "Juz", tab_kw: "Keyword",
@@ -174,6 +179,11 @@
     q_city_fail: "City search failed. Check your internet connection.",
     q_tip: "For an accurate result, keep the phone away from magnetic cases, metal objects and electronic devices.",
     q_decl: "Magnetic declination correction", q_gps: "Your location", q_relocate: "Refresh location",
+    m_btn: "Find Mosque", m_title: "Find a Mosque", m_city_ph: "Search city…", m_near: "Near me",
+    m_dir: "Directions", m_unnamed: "Mosque", m_loading: "Loading mosques…", m_found: "Mosques found",
+    m_none: "No mosques are recorded in this area.",
+    m_nocountry: "No mosques are recorded in this country. Use your location to see mosques near you.",
+    m_fail: "Mosque information could not be loaded. Check your internet connection and try again.",
   };
   // Çeviriye gönderilen kaynak: tek kelimeler yanlış çevrilmesin diye bağlamlı yazıldı
   // ("verse" tek başına bazı dillerde "şiir" oluyor; "Quranic verse" doğru çıkıyor).
@@ -181,13 +191,15 @@
     verses_tpl: "100 Quranic verses", g_verse: "Quranic verse", g_verses: "Quranic verses",
     play_from: "Play from this Quranic verse", ss_ph: "Search surah, Quranic verse, word…",
     q_btn: "Find the Qibla", q_title: "Qibla compass",
+    m_btn: "Find a mosque", m_near: "Mosques near me", m_dir: "Get directions", m_unnamed: "Mosque (masjid)",
   });
   const UPPER_KEYS = ["title", "sort", "asc", "desc"];
+  const LABEL_KEYS = ["q_btn", "q_title", "m_btn", "m_title", "m_near", "m_dir", "m_found", "m_unnamed", "m_city_ph"];
   let T = UI_TR;
   const siteLang = () => (window.getSiteLang ? window.getSiteLang() : "tr") || "tr";
 
   async function translateUI(code) {
-    const key = "q-ui-v5-" + code;
+    const key = "q-ui-v7-" + code;
     const saved = store.get(key, null);
     if (saved && saved.title) return saved;
     const keys = Object.keys(UI_EN);
@@ -202,6 +214,7 @@
     const out = {};
     keys.forEach((k, i) => { out[k] = lines[i] || UI_EN[k]; });
     UPPER_KEYS.forEach((k) => { out[k] = out[k].toLocaleUpperCase(code); });
+    LABEL_KEYS.forEach((k) => { if (out[k]) out[k] = out[k].replace(/[\s.。।۔]+$/u, ""); });
     store.set(key, out);
     return out;
   }
