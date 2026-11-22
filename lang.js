@@ -46,6 +46,7 @@ const LANGUAGES = [
 ];
 
 const SOURCE_LANG = "tr";          // sitenin yazıldığı dil
+const DEFAULT_LANG = "en";         // ilk açılış dili (kayıtlı seçim yoksa)
 const STORE_KEY = "site-lang";
 const flagUrl = (cc) => `https://flagcdn.com/w40/${cc}.png`;
 const byCode = Object.fromEntries(LANGUAGES.map((l) => [l[0], l]));
@@ -53,7 +54,7 @@ const byCode = Object.fromEntries(LANGUAGES.map((l) => [l[0], l]));
 // ---------- Kayıtlı dil (tarayıcı izin vermezse sessizce geç) ----------
 function loadLang() {
   try { const v = localStorage.getItem(STORE_KEY); if (v && byCode[v]) return v; } catch (e) {}
-  return SOURCE_LANG;
+  return DEFAULT_LANG;
 }
 function saveLang(code) { try { localStorage.setItem(STORE_KEY, code); } catch (e) {} }
 
@@ -256,9 +257,9 @@ function showToast(msg) {
 
 renderCurrent();
 
-// Kayıtlı dil varsa sayfa açılır açılmaz o dile çevir
+// Kayıtlı dil (yoksa İngilizce) sayfa açılır açılmaz uygulanır
 if (current !== SOURCE_LANG) {
   translateTo(current).then((ok) => {
-    if (!ok) { current = SOURCE_LANG; saveLang(SOURCE_LANG); renderCurrent(); applyDir(SOURCE_LANG); setTransCookie(SOURCE_LANG); }
+    if (!ok) { current = SOURCE_LANG; renderCurrent(); applyDir(SOURCE_LANG); setTransCookie(SOURCE_LANG); window.dispatchEvent(new CustomEvent("sitelang", { detail: current })); }
   });
 }
